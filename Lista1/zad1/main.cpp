@@ -20,9 +20,9 @@ void calculate(const string & from, const string & to, const string & sufix, byt
 
 int main(int argc, char * argv[])
 {
-    string sufix = "59b8531a14523bb7c69b7693e613b5f9c78c3ce66ad5ec4d2ffda5";
-    string iv_string = "94a93fa834997d63ebe6fb0e94f5a1c0";
-    string cipher_string = "UtLzjfbvjOUpkaxthzjB5a33q4hIO0SRXRl4vZCtxUREkd+3t7IZVDdU24rW88l91u1Xog0ep9WIwkKWFvVRWw==";
+    string sufix = "9bce892497299e7c8b9ecc8200001ffd07620c430a0d7a42195b4eca";
+    string iv_string = "c71c1b129cbcd5ea5cda81a43b577386";
+    string cipher_string = "iwrh/zpKMrSejmCTurc0qH9SfH3q18tyYQNsor9UAFt8ZBQL+Ea+5uhzwBncUz08dbJ8d/IpWwnTpdvisp3gO5OTBvxQmSzI4e6G3uNGX7llLiH9kMtXUmKvmIIYOANs";
 
     byte iv[CryptoPP::AES::BLOCKSIZE] = {};
     CryptoPP::HexDecoder decoder;
@@ -39,10 +39,10 @@ int main(int argc, char * argv[])
 
     thread threads[4];
 
-    threads[0] = thread(calculate, "0000000000", "4000000000", sufix, iv, cipher);
-    threads[1] = thread(calculate, "4000000001", "8000000000", sufix, iv, cipher);
-    threads[2] = thread(calculate, "8000000001", "c000000000", sufix, iv, cipher);
-    threads[3] = thread(calculate, "c000000001", "ffffffffff", sufix, iv, cipher);
+    threads[0] = thread(calculate, "00000000", "00400000", sufix, iv, cipher);
+    threads[1] = thread(calculate, "00400001", "00800000", sufix, iv, cipher);
+    threads[2] = thread(calculate, "00800001", "00c00000", sufix, iv, cipher);
+    threads[3] = thread(calculate, "00c00001", "00ffffff", sufix, iv, cipher);
 
   //  std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
@@ -51,10 +51,10 @@ int main(int argc, char * argv[])
         threads[i].join();
     }
 
-   /* std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+  /*  std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
 
     float seconds = std::chrono::duration_cast<std::chrono::seconds>(end - begin).count();
-    unsigned long maxKeys = 68719476735 * 16;
+    unsigned long maxKeys = 4294967295;
     long keys = 16777215;
     std::cout << "Time for " << keys << " keys: " << seconds << " sec\n";
     double estimatedSeconds = seconds * (double)maxKeys / (double)keys;
@@ -107,6 +107,7 @@ void calculate(const string & from, const string & to, const string & sufix, byt
                        CryptoPP::StreamTransformationFilter::NO_PADDING
             )
         );
+        encryptor.PumpAll();
 
         bool found = true;
 
@@ -137,8 +138,9 @@ void calculate(const string & from, const string & to, const string & sufix, byt
             }
         }
 
-        if (found)
-            file << decrypted_text  << " key: " << key_string << std::endl;
+       // if (found)
+       //     file << decrypted_text  << " key: " << key_string << std::endl;
+        cout << decrypted_text << endl;
 
         int iter = length;
         while (iter >= 0)
