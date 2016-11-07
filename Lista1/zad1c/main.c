@@ -167,8 +167,8 @@ void* calculate(void * args)
 
     unsigned char key[32];
     for (int i = 0; i < 32; i++) {
-        key[i] = 16 * cvt[(unsigned char)key_string[2*i]] +
-                      cvt[(unsigned char)key_string[2*i + 1]];
+        key[i] = 16 * cvt[(unsigned char)key_string[2 * i]] +
+                      cvt[(unsigned char)key_string[2 * i + 1]];
     }
 
     unsigned char * prefix = (unsigned char*)malloc(1 + strlen(params->from));
@@ -189,13 +189,13 @@ void* calculate(void * args)
 
         int found = 1;
 
-        int c,ix,n,j;
-        for (int i = 0, ix= decryptedtext_len; i < ix; i++)
+        int c,n,j;
+        for (int i = 0; i < decryptedtext_len; i++)
         {
             c = (unsigned char) decryptedtext[i];
             if (0x00 <= c && c <= 0x7f) n=0;
             else if ((c & 0xE0) == 0xC0) n=1;
-            else if ( c==0xed && i<(ix-1) && ((unsigned char)decryptedtext[i+1] & 0xa0)==0xa0)
+            else if (c == 0xed && i < (decryptedtext_len - 1) && ((unsigned char)decryptedtext[i + 1] & 0xa0)==0xa0)
             {
                 found = 0;
                 break;
@@ -207,8 +207,8 @@ void* calculate(void * args)
                 found = 0;
                 break;
             }
-            for (j=0; j<n && i<ix; j++) {
-                if ((++i == ix) || (( (unsigned char)decryptedtext[i] & 0xC0) != 0x80))
+            for (j=0; j<n && i < decryptedtext_len; j++) {
+                if ((++i == decryptedtext_len) || (( (unsigned char)decryptedtext[i] & 0xC0) != 0x80))
                 {
                     found = 0;
                     break;
@@ -240,9 +240,8 @@ void* calculate(void * args)
             key_string[i] = prefix[i];
 
         for (int i = 0; i < length; i++)
-            key[i] = 16 * cvt[(unsigned char)key_string[2*i]] +
-                          cvt[(unsigned char)key_string[2*i + 1]];
-
+            key[i] = 16 * cvt[(unsigned char)key_string[2 * i]] +
+                          cvt[(unsigned char)key_string[2 * i + 1]];
     }
 
     EVP_CIPHER_CTX_free(ctx);
