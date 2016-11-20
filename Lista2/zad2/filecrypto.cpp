@@ -12,6 +12,8 @@
 #include <cryptopp/aes.h>
 #include <cryptopp/base64.h>
 #include <irrKlang.h>
+#include <mpg123.h>
+#include <unistd.h>
 #include "conio.h"
 
 using namespace CryptoPP;
@@ -129,18 +131,27 @@ void FileCrypto::DecryptFile(const string &sourceFile, const string &destFile,
         CTR_Mode<AES>::Decryption decryption;
         decryption.SetKeyWithIV(key, key.size(), iv);
 
+        string str;
         //decrypt file
-        FileSource fsd2(sourceFile.c_str(), true,
+        FileSource fsd2(sourceFile.c_str(), false,
               new StreamTransformationFilter(decryption,
-                new FileSink(destFile.c_str())));
+                new StringSink(str)));
 
         irrklang::ISoundEngine * engine = irrklang::createIrrKlangDevice();
-        irrklang::ISound* snd = engine->play2D(destFile.c_str(), false, false, true);
 
-        while (!snd->isFinished()) { }
+        while (!fsd2.SourceExhausted())
+        {
+            str = "";
+            fsd2.Pump(131072);
+            engine->addSoundSourceFromMemory((byte*)str.c_str(), str.size(), "sound.mp3");
+            irrklang::ISound* snd = engine->play2D("sound.mp3", false, false, true);
 
-        snd->drop();
-        snd = 0;
+            while (!snd->isFinished()) { }
+
+            snd->drop();
+            snd = 0;
+            engine->removeAllSoundSources();
+        }
 
         engine->drop();
 
