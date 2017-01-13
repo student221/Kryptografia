@@ -8,18 +8,19 @@ if (isset($_SESSION['user']) != "") {
 	exit;
 }
 
-$res = mysql_query("SELECT * FROM users WHERE userId = ".$_SESSION['user']);
-$userRow = mysql_fetch_array($res);
+header("X-XSS-Protection: 0");
 
 $error = false;
 if (isset($_POST['btn-login'])) {
-	$email = trim($_POST['email']);
-	$email = strip_tags($email);
-	$email = htmlspecialchars($email);
+	$email = $_POST['email'];
+	//$email = trim($_POST['email']);
+	//$email = strip_tags($email);
+	//$email = htmlspecialchars($email);
 
-	$pass = trim($_POST['pass']);
-	$pass = strip_tags($pass);
-	$pass = htmlspecialchars($pass);
+	$pass = $_POST['pass'];
+	//$pass = trim($_POST['pass']);
+	//$pass = strip_tags($pass);
+	//$pass = htmlspecialchars($pass);
 
 	if (empty($email)) {
 		$error = true;
@@ -100,7 +101,7 @@ if (isset($_POST['btn-login'])) {
 					<div class="form-group">
              			<div class="input-group">
                 			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-             				<input type="email" name="email" class="form-control" placeholder="Your Email" value="<?php echo $email; ?>" maxlength="40" />
+             				<input type="email" name="email" class="form-control" placeholder="Your Email" value="<?php echo $email; ?>" maxlength="200" />
                 		</div>
                 		<span class="text-danger"><?php echo $emailError; ?></span>
             		</div>
@@ -108,7 +109,7 @@ if (isset($_POST['btn-login'])) {
 		            <div class="form-group">
 	             		<div class="input-group">
 		                	<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-		             		<input type="password" name="pass" class="form-control" placeholder="Your Password" maxlength="15" />
+		             		<input type="password" name="pass" class="form-control" placeholder="Your Password" maxlength="200" value="<?php echo $pass; ?>" />
 		                </div>
 		                <span class="text-danger"><?php echo $passError; ?></span>
 		            </div>
@@ -140,6 +141,12 @@ if (isset($_POST['btn-login'])) {
 						<div>
 			               <a href = "googlelogin.php">Login with Google account</a>
 			            </div>
+					</div>
+
+					<div class = "form-group">
+						<div>
+							<a href = "changepassword.php">Click here if you forget your password...</a>
+						</div>
 					</div>
 
 		            <div class="form-group">

