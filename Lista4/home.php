@@ -11,9 +11,6 @@ if (!isset($_SESSION['user'])) {
 $res = mysql_query("SELECT * FROM users WHERE userId = ".$_SESSION['user']);
 $userRow = mysql_fetch_array($res);
 
-echo $userRow['userEmail'];
-echo $userRow['userName'];
-echo $userRow['userId'];
 ?>
 
 <!DOCTYPE html>

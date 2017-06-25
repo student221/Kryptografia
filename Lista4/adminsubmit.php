@@ -4,7 +4,7 @@ session_start();
 require_once 'dbconnect.php';
 
 if (!isset($_SESSION['user'])) {
-	header("Location: index.php");
+	header("index");
 	exit;
 }
 
@@ -16,13 +16,12 @@ if ($userRow['userName'] != 'root') {
 	exit;
 }
 
-if (isset($_POST['submit'])) {
-	$value = $_POST['submit'];
-	echo "<script>console.log(".$value.");</script>";
+if (isset($_POST['btn-submit'])) {
+	$value = $_POST['btn-submit'];
 	$query = "UPDATE transfers SET transfers.transferAdminSubmit = 1 WHERE transfers.transferId = '$value'";
 	$res = mysql_query($query);
 	header("Location: adminsubmit.php");
-} 
+}
 
 ?>
 
@@ -32,6 +31,7 @@ if (isset($_POST['submit'])) {
 	<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8" />
 	<title>Welcome <?php echo $userRow['userEmail']; ?></title>
 	<link rel = "stylesheet" href = "css/bootstrap.min.css" type = "text/css" />
+	<script src='js/jquery-3.1.1.min.js'></script>
 </head>
 
 <body>
@@ -97,8 +97,8 @@ if (isset($_POST['submit'])) {
 								echo "<div id = 'target".$row['transferId']."' style = 'float: left; margin-right: 10px;'>".$row['transferTarget']."</div>";
 								echo "<div id = 'amount".$row['transferId']."' style = 'float: left; margin-right: 10px;'>".$row['transferAmount']."</div>";
 								echo "<div id = 'date' style = 'float: left; margin-right: 10px;'>".$row['transferDate']."</div>";
-								echo "<div id = 'submit' style = 'float: left; margin-right: 10px;'>".$row['transferSubmit']."</div>";
-								echo "<button type = 'submit' name = 'submit' value = ".$row['transferId'].">Submit</button>";
+								echo "<div id = 'submited' style = 'float: left; margin-right: 10px;'>".$row['transferSubmit']."</div>";
+								echo "<button type = 'submit' name = 'btn-submit' value = ".$row['transferId'].">Submit</button>";
 								echo "</div>";
 								echo "</form>";
 								echo "<span style = 'clear: both; display: table;'></span>";
@@ -112,7 +112,6 @@ if (isset($_POST['submit'])) {
     
     	</div>
     </div>
-    <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

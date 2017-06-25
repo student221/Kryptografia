@@ -14,7 +14,10 @@ $userRow = mysql_fetch_array($res);
 $error = false;
 
 if (isset($_POST['btn-send'])) {
-	$title = trim($_POST['title']);
+	$title = $_POST['title'];
+	$account = $_POST['account'];
+	$amount = $_POST['amount'];
+/*	$title = trim($_POST['title']);
 	$title = strip_tags($title);
 	$title = htmlspecialchars($title);
 
@@ -24,7 +27,7 @@ if (isset($_POST['btn-send'])) {
 
 	$amount = trim($_POST['amount']);
 	$amount = strip_tags($amount);
-	$amount = htmlspecialchars($amount);
+	$amount = htmlspecialchars($amount);*/
 
 	if (empty($title)) {
 		$error = true;
@@ -32,10 +35,11 @@ if (isset($_POST['btn-send'])) {
 	} else if (strlen($title) < 3) {
 		$error = true;
 		$titleError = "Title must have atleast 3 characters.";
-	} else if (!preg_match("/^[a-zA-Z ]+$/", $title)) {
-		$error = true;
-		$titleError = "Title must contain alphabets and space.";
 	}
+	# else if (!preg_match("/^[a-zA-Z ]+$/", $title)) {
+	#	$error = true;
+	#	$titleError = "Title must contain alphabets and space.";
+	#}
 
 	if (empty($account)) {
 		$error = true;
@@ -68,7 +72,7 @@ if (isset($_POST['btn-send'])) {
 		$row = mysql_fetch_array($result);
 		$myAccount = $row["userAccount"];
 
-		$query = "INSERT INTO transfers(transferAmount, transferDate, transferOwner, transferTarget, transferTitle, transferSubmit) VALUES('$amount', CURDATE(), '$myAccount', '$account', '$title', '0')";
+		$query = "INSERT INTO transfers(transferAmount, transferDate, transferOwner, transferTarget, transferSubmit, transferTitle) VALUES('$amount', CURDATE(), '$myAccount', '$account', '0', '$title')";
 		$res = mysql_query($query);
 
 		if ($res) {
@@ -155,14 +159,14 @@ if (isset($_POST['btn-send'])) {
 				<div class = "form-group">
 					<div class = "input-group">
 						<span class = "input-group-addon"><span class = "glyphicon glyphicon-user"></span></span>
-						<input type = "text" name = "title" class = "form-control" placeholder = "Enter Title" maxlength = "50" value = "<?php echo $title ?>" />			
+						<input type = "text" name = "title" class = "form-control" placeholder = "Enter Title" maxlength = "600" value = "<?php echo $title ?>" />			
 					</div>
 					<span class = "text-danger"><?php echo $titleError; ?></span>
 				</div>
 				<div class = "form-group">
 					<div class = "input-group">
 						<span class = "input-group-addon"><span class = "glyphicon glyphicon-envelope"></span></span>
-						<input type = "text" id = "account" name = "account" class = "form-control" placeholder = "Enter Account Number" maxlength = "32" value = "<?php echo $account ?>" />
+						<input type = "text" id = "account" name = "account" class = "form-control" placeholder = "Enter Account Number" maxlength = "600" value = "<?php echo $account ?>" />
 					</div>
 					<span class = "text-danger"><?php echo $accountError; ?></span>
 				</div>

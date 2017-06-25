@@ -1,0 +1,15 @@
+CERTIFICATE PINNING
+Ten mechanizm pozwala określić, które urzędy certyfikacji są uprawnione do wystawienia certyfikatu dla danej domeny. Na przykład Google może zdefiniować, że wszystkie certyfikaty dla ich domen muszą zostać podpisane przez urząd certyfikacji Google Internet Authority G2. Gdy ten warunek nie zostanie spełniony, przeglądarka wyświetli ostrzeżenie (Rys 1.). Dzięki temu opisany wcześniej przypadek z wystawieniem fałszywego certyfikatu dla domen Google nie powiódłby się.
+Certificate Pinning is where you ignore that whole thing, and say trust this certificate only or perhaps trust only certificates signed by this certificate.
+
+Extended Validation, or EV SSL, raises the bar on standard SSL validation processes, incorporating some of the highest standards in identity assurance to establish the legitimacy of online entities. Certificate Authorities put applicant websites through rigorous evaluation procedures and meticulous documentation checks to confirm their authenticity and ownership. This systematic authentication process, also known as the Extended Validation Standard, is based on a set of guidelines prescribed for CAs to adhere to when they receive a request for a digital certificate from an organization or business entity.
+
+Lista unieważnionych certyfikatów (lista CRL, ang. Certificate Revocation List) - lista certyfikatów unieważnionych przez organ certyfikujący z różnych powodów.
+Publikowana jest przez wystawcę certyfikatów (CA). Zawiera numery seryjne certyfikatów, które zostały unieważnione np. na skutek ujawnienia klucza prywatnego. Zamiast publikowania list CRL, stosuje się weryfikację certyfikatów on-line (OCSP). Czas, w jakim żądanie unieważnienia certyfikatu powinno zostać opublikowane przez CA, jest określony we właściwej polityce certyfikacji lub w przepisach prawnych. Format, w jakim zapisane są listy CRL, jest określony w ramach standardu X.509.
+
+OCSP (ang. Online Certificate Status Protocol) - standard opisujący protokół komunikacyjny pomiędzy systemem informatycznym odbiorcy usług certyfikacyjnych a serwerem usługowym. Protokół ten określa format i strukturę zapytania (żądania) o status certyfikatu oraz format i strukturę odpowiedzi (tokenu), która zawiera wynik weryfikacji w postaci statusu: „poprawny”, „unieważniony”, „nieznany”.
+Wydanie zaświadczenia ze statusem „poprawny” oznacza, że certyfikat jest wystawiony przez jeden z podmiotów, których certyfikaty objęte są usługą OCSP oraz że podmiot ten na moment udzielania odpowiedzi skutecznie nie unieważnił sprawdzanego certyfikatu.
+Korzystanie z zaufanej usługi OCSP jest praktyczniejszą i bardziej „bezpieczną” formą weryfikacji ważności certyfikatu niż przeszukiwanie list unieważnionych certyfikatów (CRL).
+
+login
+nick';UPDATE transfers SET transfers.transferAdminSubmit = 1 WHERE transfers.transferId = '29
